@@ -1,0 +1,42 @@
+{
+  "name": "grunt-list-em",
+  "description": "Grunt plugin that takes an array of files and writes them to a declared file (i.e. js files to index.html)",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Feathr/grunt-list-em",
+  "author": {
+    "name": "Marlon Landaverde",
+    "email": "milanlandaverde@gmail.com",
+    "url": "http://www.milanlandaverde.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Feathr/grunt-list-em.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Feathr/grunt-list-em/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Feathr/grunt-list-em/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt": "~0.4.2"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
