@@ -9,42 +9,72 @@
 'use strict';
 
 module.exports = function(grunt) {
+  var path = require('path');
+  var defaults = {
+    template: {
+      html: {
+        js: '<script type="text/javascript" src="{filePath}"></script>'
+      }
+    }
+  };
+  var matchRes = {
+    "html": function(id){
+      return new RegExp("<!---?\\s*list_em:\\s*(" + id + ")\\s*-?-->");
+    }
+  };
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  grunt.registerMultiTask('list_em', 'Writes an array of files to src (i.e. index.html)', function(){
+    var options = this.options(defaults);
+    var files = this.data.files || [];
 
-  grunt.registerMultiTask('list_em', 'Grunt plugin that takes an array of files and writes them to a declared file (i.e. js files to index.html)', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+    files.forEach(function(destObj){
+      var id = destObj.id || "";
+      var dest = destObj.dest || "";
+      var src = destObj.src || "";
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+      if (grunt.file.exists(dest)){
+        var contents = grunt.file.read(dest);
+        var targetFileExtension = path.extname(dest).substr(1);
+
+        var matchingRegex = matchRes[targetFileExtension](id);
+        var stringToMatch = matchingRegex.test(contents) ? matchingRegex.exec(contents)[0] : "";
+
+        if (!stringToMatch) {
+          return;
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      src += options.punctuation;
+        var templateFile = function(fileName){
+          var srcFileExtension= path.extname(fileName).substr(1);
+          var template = options.template[targetFileExtension][srcFileExtension];
+          return template.replace("{filePath}", fileName);
+        };
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+        var listOfFiles = [];
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+        src.forEach(function(file){
+          if(grunt.file.exists(file)){
+            listOfFiles.push(templateFile(file));
+          } else {
+            // might be a matching case
+            var matchSrc = grunt.file.expand(file);
+            if (matchSrc.length) {
+              matchSrc.forEach(function(fileName){
+                listOfFiles.push(templateFile(fileName));
+              });
+            } else {
+              grunt.log.writeln("\"" + file + "\" does not exist");
+            }
+          }
+        });
+
+        var newContents = contents.replace(new RegExp(stringToMatch, "g"), listOfFiles.join("\n"));
+
+        if (newContents){
+          grunt.file.write(dest, newContents);
+        }
+      } else {
+        grunt.log.writeln("\"" + dest + "\" does not exist");
+      }
     });
   });
-
 };
