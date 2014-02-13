@@ -37,49 +37,54 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.template
+Type: `Object`
 
-A string value that is used to do something with whatever.
+The templates for sourcing files. Definition of single template overrides its default
+equivalent only.
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+Example:
 
-A string value that is used to do something else with whatever else.
+```javascript
+list_em: {
+  template: {
+    html: {
+      js: '<script type="text/javascript" src="{filePath}"></script>'
+    }
+  }
+}
+```
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Files
+Send in an array of file objects that contain an id, the destination file, and the array that contains the list of files you want written.
 
 ```js
 grunt.initConfig({
   list_em: {
     options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    dev: {
+      files: [{
+        id: 'js_libraries',
+        dest: 'index.html',
+        src: arrayOfJsLibraries
+      },{
+        id: 'app_source',
+        dest: 'index.html',
+        src: arrayOfSourceCode
+      }]
+    }
   },
 });
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### How to include
+To declare where in the file you would like your source files to be listed:
 
-```js
-grunt.initConfig({
-  list_em: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
+```html
+<!-- list_em: js_libraries -->
+<!-- list_em: app_source -->
 ```
 
 ## Contributing
@@ -87,3 +92,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 _(Nothing yet)_
+
+## TODO
+ - Add testing component
+ - Support for CSS
+
