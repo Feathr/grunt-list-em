@@ -1,7 +1,7 @@
 {
   "name": "grunt-list-em",
   "description": "Grunt plugin that takes an array of files and writes them to a declared file (i.e. js files to index.html)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/Feathr/grunt-list-em",
   "author": {
     "name": "Marlon Landaverde",
