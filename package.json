@@ -39,4 +39,6 @@
   "keywords": [
     "gruntplugin"
   ]
-}
+}  "dependencies": {
+  	"grunt": "~0.4.1"
+  }
