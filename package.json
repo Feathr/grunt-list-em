@@ -37,8 +37,14 @@
     "grunt": "~0.4.2"
   },
   "keywords": [
-    "gruntplugin"
-  ]
-}  "dependencies": {
-  	"grunt": "~0.4.1"
+    "gruntplugin",
+    "list",
+    "index",
+    "html",
+    "browser",
+    "javascript"
+  ],
+  "dependencies": {
+    "grunt": "~0.4.1"
   }
+}
