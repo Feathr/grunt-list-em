@@ -11,7 +11,7 @@
 module.exports = function(grunt) {
   var path = require('path');
   var defaults = {
-    template: {
+    templates: {
       html: {
         js: '<script type="text/javascript" src="{filePath}"></script>'
       }
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 
         var templateFile = function(fileName){
           var srcFileExtension= path.extname(fileName).substr(1);
-          var template = options.template[targetFileExtension][srcFileExtension];
+          var template = options.templates[targetFileExtension][srcFileExtension];
           return template.replace("{filePath}", fileName);
         };
 
